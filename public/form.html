@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip Planning Survey</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+
+<body>
+    <form action="/submit-form" method="post">
+        <h2>Trip Planning Survey</h2>
+
+        <label for="anyPlans">Any Plans?</label>
+        <select id="anyPlans" name="anyPlans">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+
+        <label for="categories">Categories:</label>
+        <input type="text" id="categorySearch" oninput="filterOptions('categories', 'categorySearch')"
+            placeholder="Search categories">
+        <select id="categories" name="categories" multiple>
+            <option value="category1">Category 1</option>
+            <option value="category2">Category 2</option>
+            <option value="category3">Category 3</option>
+            <option value="others">Others</option>
+        </select>
+
+        <label for="areaOfInterest">Area of Interest:</label>
+        <input type="text" id="areaSearch" oninput="filterOptions('areaOfInterest', 'areaSearch')"
+            placeholder="Search areas of interest">
+        <select id="areaOfInterest" name="areaOfInterest" multiple>
+            <option value="place1">Place 1</option>
+            <option value="place2">Place 2</option>
+            <option value="place3">Place 3</option>
+
+            <option value="others">Others</option>
+        </select>
+
+        <label for="typeOfPlace">Type of Place:</label>
+        <input type="text" id="typeSearch" oninput="filterOptions('typeOfPlace', 'typeSearch')"
+            placeholder="Search types of places">
+        <select id="typeOfPlace" name="typeOfPlace" multiple>
+            <option value="type1">Type 1</option>
+            <option value="type2">Type 2</option>
+            <option value="type3">Type 3</option>
+            <option value="others">Others</option>
+        </select>
+
+        <label for="numberOfDays">Number of Days:</label>
+        <input type="number" id="numberOfDays" name="numberOfDays" placeholder="Enter number of days">
+
+        <label for="distance">Distance:</label>
+        <input type="text" id="distance" name="distance" placeholder="Enter distance">
+
+        <label for="prices">Prices:</label>
+        <input type="text" id="priceSearch" oninput="filterOptions('prices', 'priceSearch')"
+            placeholder="Search prices">
+        <select id="prices" name="prices" multiple>
+            <option value="price1">Price 1</option>
+            <option value="price2">Price 2</option>
+            <option value="price3">Price 3</option>
+        </select>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        function filterOptions(selectId, inputId) {
+            var select = document.getElementById(selectId);
+            var input = document.getElementById(inputId).value.toUpperCase();
+            var options = select.getElementsByTagName('option');
+
+            for (var i = 0; i < options.length; i++) {
+                var optionText = options[i].text.toUpperCase();
+                var isMatch = optionText.indexOf(input) > -1;
+                options[i].style.display = isMatch ? '' : 'none';
+            }
+        }
+    </script>
+</body>
+
+</html>

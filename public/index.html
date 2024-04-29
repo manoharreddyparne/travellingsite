@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Prayasmaya</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #cbbfbf;
+            color: #333;
+        }
+
+        .background-container {
+            width: auto;
+            overflow: hidden;
+            position: relative;
+        }
+
+        header {
+            background-color: #333;
+            color: #ffffff;
+            text-align: center;
+            padding: auto;
+            position: fixed;
+            width: 100%;
+            top: -21px;
+            z-index: 2;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            cursor: pointer;
+            z-index: 3;
+        }
+
+        .navbar-line {
+            width: 30px;
+            height: 3px;
+            background-color: #fff;
+            margin: 6px 0;
+        }
+
+        .auth-links {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+            z-index: 4;
+        }
+
+        .auth-link,
+        .get-started-link {
+            color: #fff;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+            margin-left: 20px;
+        }
+
+        .get-started-link:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: auto;
+            margin: 0 auto;
+            padding: 2em;
+            text-align: center;
+            position: relative;
+            z-index: 0;
+            margin-top: 70px;
+        }
+
+        .welcome-text-container {
+            position: relative;
+            overflow: hidden;
+            background-color: #ff0000;
+            border-radius: 5px;
+            width: 100%;
+            height: 70px;
+        }
+
+        .welcome-text {
+            font-size: 2em;
+            margin-bottom: 1em;
+            white-space: nowrap;
+            overflow: hidden;
+            color: #fff;
+            animation: moveLeftToRight 10s linear infinite;
+        }
+
+
+        @keyframes moveLeftToRight {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        @media only screen and (max-width: 575px) {
+            header {
+                padding: 10px;
+                top: 0;
+            }
+
+            .auth-links {
+                top: 5px;
+                right: 5px;
+            }
+
+            .container {
+                padding: 1em;
+                margin-top: 40px;
+            }
+        }
+
+        .clock-image-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(137, 29, 29, 0.1);
+            margin-top: 20px;
+        }
+
+        .clock-image {
+            width: 100%;
+            height: auto;
+        }
+
+        .text-overlay {
+            position: absolute;
+            top: 48%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-size: 1.3em;
+            background: none;
+            padding: 10px;
+            border-radius: 0px;
+        }
+
+        @media only screen and (min-width: 576px) and (max-width: 991px) {
+            .container {
+                padding: 1.5em;
+                margin-top: 60px;
+            }
+
+        }
+
+        @media only screen and (min-width: 992px) {
+            .container {
+                padding: 2em;
+                margin-top: 70px;
+            }
+        }
+
+        .hidden-interface,
+        .google-maps-interface,
+        .ticket-booking-interface,
+        .hotel-booking-interface {
+            display: none;
+            position: fixed;
+            top: 40px;
+            left: 10px;
+            background-color: #000;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+            width: 200px;
+            text-align: left;
+        }
+
+        .signup-form,
+        .login-form {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+            width: 300px;
+            text-align: left;
+        }
+
+        .about-section {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            margin-top: 140px;
+            text-align: center;
+            z-index: 3;
+        }
+
+        .contact-details {
+            margin-top: 160px;
+            background-color: #333;
+            color: #809813;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .form-input {
+            margin-bottom: 15px;
+        }
+
+        .form-input label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-input input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        .form-input select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        .form-input button,
+        .interface-link,
+        .google-maps-link,
+        .ticket-booking-link,
+        .hotel-booking-link {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px;
+        }
+
+        .form-input button:hover,
+        .interface-link:hover,
+        .google-maps-link:hover,
+        .ticket-booking-link:hover,
+        .hotel-booking-link:hover {
+            background-color: #555;
+        }
+
+        .interface-link,
+        .google-maps-link,
+        .ticket-booking-link,
+        .hotel-booking-link {
+            color: #fff;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .interface-link:hover,
+        .google-maps-link:hover,
+        .ticket-booking-link:hover,
+        .hotel-booking-link:hover {
+            text-decoration: underline;
+        }
+
+        .contact-details {
+            margin-top: 100px;
+            padding: 20px;
+            background-color: #333;
+            color: #809813;
+            text-align: center;
+            z-index: 3;
+        }
+
+        .social-media-links {
+            margin-top: 20px;
+        }
+
+        .social-media-links a {
+            display: inline-block;
+            margin: 0 10px;
+            color: #fff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-container">
+        <header>
+            <div class="navbar" onclick="toggleInterface()">
+                <div class="navbar-line"></div>
+                <div class="navbar-line"></div>
+                <div class="navbar-line"></div>
+            </div>
+            <h1>Welcome to Prayasmaya</h1>
+            <div class="auth-links">
+                <a href="#" class="auth-link" onclick="submitSignupForm()">Sign Up</a>
+                <a href="#" class="auth-link" onclick="submitLoginForm()">Login</a>
+                <a href="#" class="get-started-link" onclick="showGetStartedInterface()">Get Started</a>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="welcome-text-container">
+                <p class="welcome-text">This is the basic webpage for the traveling sites.</p>
+            </div>
+            <div class="clock-image-container">
+                <img src="images/black_bg.jpg" alt="Wall Clock" class="clock-image">
+                <div class="text-overlay">
+                    <p>
+                        Introduction to the Application:
+
+                        Meet "Prayasmaya," a versatile travel companion that simplifies your journey by consolidating
+                        various functionalities into one user-friendly application. Whether you're online or offline,
+                        Prayasmaya is designed to address common challenges faced by travelers.
+
+                        Here's how it works:
+
+                        Map Assistance:
+
+                        Upon login and providing necessary details, users express their travel needs.
+                        Prayasmaya responds by assigning a personalized map sheet, tailoring your journey to your
+                        preferences.
+                        Trip Planning:
+
+                        Users complete a form detailing their trip requirements.
+                        The system, whether through a computer or a user interface, then assigns a map and a guide
+                        (which can be a robot or a consultant agency) to make your trip smoother.
+                        Budget Analysis:
+
+                        Prayasmaya features a "budget analyzer" to help users plan and understand the costs associated
+                        with their trips in advance.
+                        Local Support:
+
+                        The application collaborates with local guides, ensuring quick responses to urgent needs.
+                        Local guides provide instant support, making your trip more efficient and enjoyable.
+                        Consultancy Services:
+
+                        For specific points in your journey, Prayasmaya offers a "consultancy for a guide" option.
+                        Users can choose between a physical guide or virtual assistance, and the system assigns a
+                        suitable guide accordingly.
+                        On-the-Go Assistance:
+
+                        Prayasmaya senses and responds to user needs during travel, facilitating quick actions for any
+                        unforeseen challenges.
+                        If you find yourself stuck, the application promptly connects you with a local guide for
+                        immediate support.
+                        In essence, Prayasmaya aims to enhance your travel experience by streamlining the planning
+                        process, offering budget insights, and providing on-the-spot assistance through a combination of
+                        technology and local expertise.
+                    </p>
+                </div>
+            </div>
+
+            <div class="hidden-interface" id="interface">
+                <a href="#" class="interface-link" onclick="navigateToHome()">Home</a>
+                <a href="#" class="interface-link" onclick="showSignupForm()">Create an account</a>
+                <a href="#" class="interface-link" onclick="showLoginForm()">Login</a>
+                <a href="#about" class="interface-link" onclick="showAboutSection()">About</a>
+                <a href="#contact" class="interface-link" onclick="showContactSection()">Contact</a>
+            </div>
+
+
+            <div class="google-maps-interface" id="googleMapsInterface">
+                <a href="#" class="google-maps-link" onclick="openGoogleMaps()">Open Google Maps</a>
+            </div>
+
+            <div class="ticket-booking-interface" id="ticketBookingInterface">
+                <a href="#" class="ticket-booking-link" onclick="openTicketBooking()">Open Ticket Booking</a>
+            </div>
+
+            <div class="hotel-booking-interface" id="hotelBookingInterface">
+                <a href="#" class="hotel-booking-link" onclick="openHotelBooking()">Open Hotel Booking</a>
+            </div>
+
+            <div class="about-section" id="about">
+                <h2>About:</h2>
+                <p>Prayasmaya is just not a website that deals with traveling but also makes use of protecting nature.
+                    Yes, you have heard it right.
+                    The “Prayasmaya” is the java based application, the application is designed to make the better
+                    changes in the world which can fulfil the requirements for the present scenario that a modern tech
+                    need to be. As the “Prayasmaya” was found to overcome the drawbacks of the existing system.
+                    The “Prayasmaya” deals with the travelling part for the user to get the destination to be reached in
+                    every efficient way, in that means the “Prayasmaya” will not be the reference to the google maps but
+                    also the other categories like ticketing for bookings, hotels for the stay and restaurants for the
+                    food and other basic needs.
+                    The “Prayasmaya” will be the new way of travelling the long-way distances for the newer and the
+                    older one, that means it can be used by the people who would like to travels for the very first time
+                    and many times. Not only the distance but also creates a best path by using the existing system of
+                    the google maps.
+                    The “Prayasmaya” add-on the all the required tools and cautions for the user that a travel should
+                    be, the “Prayasmaya” will create a map for the user and assign it them for the whole travelling
+                    part.
+                    For example:
+                    If a person want to travel a particular place in India there are many alternatives for that
+                    individual such as he or she can simply go by the train for the long distances, but to make the trip
+                    very effective for the individual the “Prayasmaya” creates a map that makes their trip optimized
+                    way. And they could even learn more on that travel.
+                    Also if a person that who is travelling for the very first they usually consults an agency where
+                    they can find a guide to make their trip to worthy. But here the application will directly assign a
+                    guide to the user for the visiting part.
+                    The “Prayasmaya” will add-on the best visiting areas in their travel sights such as pilgrims,
+                    temples, ancient places, historical architectures etc..
+                    At last the “Prayasmaya” can analyse the budget for the whole travel, depending upon their stay at
+                    that particular place.
+
+                </p>
+            </div>
+
+            <div class="signup-form" id="signupForm">
+                <form onsubmit="submitSignupForm(); return false;">
+                    <input type="submit" value="Sign Up">
+                </form>
+            </div>
+
+            <div class="login-form" id="loginForm">
+                <form onsubmit="submitLoginForm(); return false;">
+                    <input type="submit" value="Login">
+                </form>
+            </div>
+
+
+
+            <div class="contact-details" id="contact">
+                <h2>Contact Us</h2>
+                <p>For any inquiries or support, feel free to reach out:</p>
+                <p>Phone: <a href="tel:+917093501921">+9170935 01921</a></p>
+                <p>Phone: <a href="tel:+917013630945">+91 70136 30945</a></p>
+                <p>Phone: <a href="tel:+919014272355">+91 90142 72355</a></p>
+                <p>Email: <a
+                        href="mailto:2211CS010446@mallareddyuniversity.ac.in">2211CS010446@mallareddyuniversity.ac.in</a>
+                </p>
+                <p>Email: <a
+                        href="mailto:2211CS010XXX@mallareddyuniversity.ac.in">2211CS010XXX@mallareddyuniversity.ac.in</a>
+                </p>
+                <p>Email: <a
+                        href="mailto:2211CS010XXX@mallareddyuniversity.ac.in">2211CS010XXX@mallareddyuniversity.ac.in</a>
+                </p>
+
+                <div class="social-media-links">
+                    <!-- https://wa.me/709351921 -->
+                    <a href="https://api.whatsapp.com/send?phone=917093501921" target="_blank">WhatsApp</a>
+                    <a href="https://t.me/prayasmaya" target="_blank">Telegram</a>
+                    <a href="https://www.instagram.com/sathwik_70/" target="_blank">Instagram</a>
+                    <a href="https://www.youtube.com/@ComePlayWithMe" target="_blank">YouTube</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleInterface() {
+            var interfaceElement = document.getElementById('interface');
+            interfaceElement.style.display = (interfaceElement.style.display === 'none' || interfaceElement.style.display === '') ? 'block' : 'none';
+        }
+
+        function navigateToHome() {
+            window.location.reload();
+        }
+
+        function showSignupForm() {
+            window.location.href = 'http://localhost:8080/';
+        }
+
+        function showLoginForm() {
+            window.location.href = 'http://localhost:8080/login';
+        }
+        function showAboutSection() {
+            var aboutSection = document.getElementById('about');
+            var contactSection = document.getElementById('contact');
+            var googleMapsInterface = document.getElementById('googleMapsInterface');
+            var ticketBookingInterface = document.getElementById('ticketBookingInterface');
+            var hotelBookingInterface = document.getElementById('hotelBookingInterface');
+
+            aboutSection.style.display = 'block';
+            contactSection.style.display = 'none';
+            googleMapsInterface.style.display = 'none';
+            ticketBookingInterface.style.display = 'none';
+            hotelBookingInterface.style.display = 'none';
+        }
+
+        function showContactSection() {
+            var aboutSection = document.getElementById('about');
+            var contactSection = document.getElementById('contact');
+            var googleMapsInterface = document.getElementById('googleMapsInterface');
+            var ticketBookingInterface = document.getElementById('ticketBookingInterface');
+            var hotelBookingInterface = document.getElementById('hotelBookingInterface');
+
+            aboutSection.style.display = 'none';
+            contactSection.style.display = 'block';
+            googleMapsInterface.style.display = 'none';
+            ticketBookingInterface.style.display = 'none';
+            hotelBookingInterface.style.display = 'none';
+        }
+
+
+        function showGetStartedInterface() {
+            var googleMapsInterface = document.getElementById('googleMapsInterface');
+            var ticketBookingInterface = document.getElementById('ticketBookingInterface');
+            var hotelBookingInterface = document.getElementById('hotelBookingInterface');
+            googleMapsInterface.style.display = 'block';
+            ticketBookingInterface.style.display = 'block';
+            hotelBookingInterface.style.display = 'block';
+        }
+
+
+        function submitSignupForm() {
+            window.location.href = 'http://localhost:8080/';
+        }
+
+        function submitLoginForm() {
+            window.location.href = 'http://localhost:8080/login';
+        }
+
+        function showGetStartedInterface() {
+            window.location.href = 'http://localhost:8080/public/form.html';
+        }
+
+        document.body.addEventListener('click', function (event) {
+            var interfaceElement = document.getElementById('interface');
+            var signupForm = document.getElementById('signupForm');
+            var loginForm = document.getElementById('loginForm');
+            var googleMapsInterface = document.getElementById('googleMapsInterface');
+            var ticketBookingInterface = document.getElementById('ticketBookingInterface');
+            var hotelBookingInterface = document.getElementById('hotelBookingInterface');
+            var navbar = document.querySelector('.navbar');
+
+            if (!navbar.contains(event.target) && !interfaceElement.contains(event.target) && !signupForm.contains(event.target) && !loginForm.contains(event.target) && !googleMapsInterface.contains(event.target) && !ticketBookingInterface.contains(event.target) && !hotelBookingInterface.contains(event.target)) {
+                interfaceElement.style.display = 'none';
+                signupForm.style.display = 'none';
+                loginForm.style.display = 'none';
+                googleMapsInterface.style.display = 'none';
+                ticketBookingInterface.style.display = 'none';
+                hotelBookingInterface.style.display = 'none';
+            }
+        });
+    </script>
+
+</body>
+
+</html>

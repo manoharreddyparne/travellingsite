@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Prayasmaya</title>
+
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .signup-form {
+            width: 300px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-input {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        .toggle-password {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        a.login-link {
+            color: red;
+            text-decoration: underline;
+        }
+    </style>
+
+<body>
+    <div class="signup-form" id="signupForm">
+        <h2>Sign Up</h2>
+        <form action="http://localhost:8080/signup" method="POST" onsubmit="submitSignupForm(event); return false;">
+            <div class="form-input">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-input">
+                <label for="mobileNumber">Mobile:</label>
+                <input type="tel" name="mobileNumber" id="mobileNumber" placeholder="Enter mobile number"
+                    pattern="[0-9]{10}" title="Please enter a valid 10-digit mobile number" inputmode="numeric"
+                    required>
+            </div>
+            <div class="form-input">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email">
+            </div>
+            <div class="form-input">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Choose password"
+                    oninput="checkPasswordStrength()" required>
+                <span class="toggle-password" onclick="togglePasswordVisibility('password')">👀</span>
+                <div id="passwordStrengthMessage"></div>
+            </div>
+            <div class="form-input">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Re-enter the password"
+                    required>
+            </div>
+
+
+            <div class="form-input">
+                <button type="submit">Sign Up</button>
+                <p>If you have an account already, <a class="login-link" href="http://localhost:8080/login">try
+                        login</a>.</p>
+            </div>
+        </form>
+
+        <script>
+            function submitSignupForm(event) {
+                event.preventDefault();
+
+                const name = document.getElementById('name').value;
+                const mobileNumber = document.getElementById('mobileNumber').value;
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+
+                if (!isPasswordValid(password)) {
+                    alert('Please use a strong password (first letter as a capital letter, mixture of alphabets, numbers, and at least one special character).');
+                    return;
+                }
+
+                if (password !== confirmPassword) {
+                    alert('Password and Confirm Password do not match. Please enter matching passwords.');
+                    return;
+                }
+
+                const userData = {
+                    name,
+                    mobileNumber,
+                    email,
+                    password
+                };
+
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', 'http://localhost:8080/signup', true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            alert('Sign Up to prayasmaya completed!');
+                            window.location.href = 'http://localhost:8080/username';
+                        } else {
+                            alert('Your mobile number is already registered. Please try logging in.');
+                            window.location.href = 'http://localhost:8080/login';
+                        }
+                    }
+                };
+
+                xhr.send(JSON.stringify(userData));
+            }
+
+            function isPasswordValid(password) {
+                const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+                return regex.test(password);
+            }
+
+            function isPasswordStrong(password) {
+                const hasLetter = /[a-zA-Z]/.test(password);
+                const hasNumber = /\d/.test(password);
+                const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+                return hasLetter && hasNumber && hasSpecialChar;
+            }
+            function togglePasswordVisibility(fieldId) {
+                const passwordField = document.getElementById(fieldId);
+                passwordField.type = passwordField.type === "password" ? "text" : "password";
+            }
+
+            function checkPasswordStrength() {
+                const password = document.getElementById('password').value;
+                const strengthMessage = document.getElementById('passwordStrengthMessage');
+
+                const hasLetter = /[a-zA-Z]/.test(password);
+                const hasNumber = /\d/.test(password);
+                const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+                if (hasLetter && hasNumber && hasSpecialChar) {
+                    strengthMessage.innerHTML = 'Strong';
+                } else if (hasLetter && hasNumber) {
+                    strengthMessage.innerHTML = 'Poor, use at least one special character.';
+                } else {
+                    strengthMessage.innerHTML = 'Weak. Please use letters, numbers, and at least one special character.';
+                }
+            }
+        </script>
+    </div>
+</body>
+
+</html>

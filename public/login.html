@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+
+<body>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            width: 300px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        div {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #loginErrorMessage,
+        #loginSuccessMessage {
+            display: none;
+        }
+
+        a.create-account-link {
+            color: red;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        a.create-account-link:hover {
+            color: darkred;
+        }
+
+        p.create-account-text {
+            font-size: 14px;
+        }
+    </style>
+    <form onsubmit="submitLoginForm(event)" action="http://localhost:8080/login" method="POST">
+        <div>
+            <label for="usernameInput">Username:</label>
+            <input id="usernameInput" name="username" placeholder="Enter your Username" type="text"
+                autocomplete="username" required>
+        </div>
+        <div>
+            <label for="passwordInput">Password:</label>
+            <input id="passwordInput" name="password" placeholder="Enter your Password" type="password"
+                autocomplete="current-password" required>
+        </div>
+        <div>
+            <button type="submit">Login</button>
+        </div>
+        <div id="loginErrorMessage" style="color: red;">Username or password doesn't match! Please try again.</div>
+        <div id="loginSuccessMessage" style="color: green;">You have now logged in!</div>
+        <p class="create-account-text">If you do not have any account, <a class="create-account-link"
+                href="http://localhost:8080">create an account</a>.</p>
+    </form>
+    <script>
+        async function submitLoginForm(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('usernameInput').value;
+            const password = document.getElementById('passwordInput').value;
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost:8080/login', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        handleLoginFormResponse(response);
+                    } else {
+                        console.error('Error during login. Status:', xhr.status);
+                        document.getElementById('loginErrorMessage').textContent = 'Username or Password doesnt! Please try again.';
+                        document.getElementById('loginErrorMessage').style.display = 'block';
+                    }
+                }
+            };
+
+            xhr.send(JSON.stringify({ username, password }));
+        }
+
+        function handleLoginFormResponse(response) {
+            const successMessage = document.getElementById('loginSuccessMessage');
+            const errorMessage = document.getElementById('loginErrorMessage');
+
+            if (response && response.success) {
+                successMessage.textContent = response.success;
+                successMessage.style.display = 'block';
+
+                setTimeout(() => {
+                    window.location.href = 'http://localhost:8080/userpage'; // Replace with your desired URL
+                }, 3000);
+            } else {
+                console.error('Login failed. Server Response:', response);
+
+                if (response && response.error && response.details) {
+                    errorMessage.textContent = response.error + ': ' + response.details;
+                } else {
+                    errorMessage.textContent = "Username or password doesn't match! Please try again.";
+                }
+
+                errorMessage.style.display = 'block';
+            }
+        }
+    </script>
+
+</body>
+
+</html>

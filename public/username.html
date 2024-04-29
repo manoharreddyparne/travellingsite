@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Username</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        form {
+            width: 300px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-input {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        .error-message {
+            color: red;
+        }
+
+        .success-message {
+            color: green;
+            display: none;
+            margin-top: 10px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <form action="http://localhost:8080/choose-username" method="POST" onsubmit="return validateForm()">
+        <div class="form-input">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="Choose username" required>
+            <span class="error-message" id="username-error">Username must be contain first letter as capital and the
+                combination of letters, numbers, and at least one special character.</span>
+        </div>
+        <button type="submit" id="continueBtn" onclick="submitForm()">Continue</button>
+        <div class="success-message" id="success-message">Username chosen successfully! Now you can login.</div>
+
+    </form>
+
+
+    <script>
+        function validateForm() {
+            var usernameInput = document.getElementById('username');
+            var usernameError = document.getElementById('username-error');
+
+            var usernameRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
+
+            if (!usernameRegex.test(usernameInput.value)) {
+                usernameError.textContent = 'Username must be a combination of letters, numbers, and special characters.';
+                return false;
+            } else {
+                usernameError.textContent = '';
+                return true;
+            }
+        }
+
+        function submitForm() {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost:8080/choose-username', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        handleFormResponse(response);
+                    } else {
+                        alert('this username is already taken try others.');
+                    }
+                }
+            };
+
+            xhr.send(JSON.stringify({ username }));
+        }
+
+        function handleFormResponse(response) {
+            var successMessage = document.getElementById('success-message');
+
+            if (response && response.success) {
+                successMessage.textContent = response.success;
+                successMessage.style.color = 'green';
+                successMessage.style.display = 'block';
+
+                alert(response.success);
+
+                setTimeout(() => {
+                    window.location.href = 'http://localhost:8080/login';
+                }, 3000);
+            } else {
+                alert('this username is already taken try others');
+            }
+        }
+    </script>
+</body>
+
+</html>

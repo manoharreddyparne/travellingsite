@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travelling Links</title>
+</head>
+
+<body>
+    <script>
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const service = urlParams.get('service');
+
+
+        const serviceUrls = {
+            'makemytrip': 'https://makemytrip.com/',
+            'ixigo': 'https://www.ixigo.com',
+            'rapido': 'https://www.rapido.bike',
+            'uber': 'https://www.uber.com',
+            'olacabs': 'https://www.olacabs.com'
+        };
+
+        if (service && serviceUrls.hasOwnProperty(service)) {
+            window.location.href = serviceUrls[service];
+        } else {
+            window.location.href = '/travelling_link';
+        }
+    </script>
+</body>
+
+</html>
+u
